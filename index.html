@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anton&family=Rubik&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script defer>
+      $(document).ready(function () {
+        $("select")
+          .eq(0)
+          .change(function () {
+            let value = $("select").val();
+            if (value == "1 - 100") {
+              getData(1, 100);
+            } else if (value == "101 - 200") {
+              getData(101, 200);
+            } else if (value == "201 - 300") {
+              getData(201, 300);
+            } else if (value == "301 - 400") {
+              getData(301, 400);
+            } else if (value == "401 - 560") {
+              getData(401, 560);
+            }
+          });
+
+        $("input[type=radio]").change(function () {
+          console.log("cos");
+          let value = $('input[type="radio"]:checked')
+            .parent()
+            .children("label")
+            .text();
+          if (value == "1 - 100") {
+            getData(1, 100);
+          } else if (value == "101 - 200") {
+            getData(101, 200);
+          } else if (value == "201 - 300") {
+            getData(201, 300);
+          } else if (value == "301 - 400") {
+            getData(301, 400);
+          } else if (value == "401 - 560") {
+            getData(401, 560);
+          }
+        });
+
+        $('input[type="button"]').click(function () {
+          let value = $('input[type="number"]').val();
+          getData(value, value);
+        });
+      });
+
+      function getData(number1, number2) {
+        $("h1").eq(0).text("");
+        for (let i = number1; i <= number2; i++) {
+          $.ajax({
+            url: "test.php",
+            method: "POST",
+            data: {
+              id: i,
+            },
+            success: function cos(wynik) {
+              $("h1")
+                .eq(0)
+                .append("<p>" + wynik + "</p><hr>");
+            },
+          });
+        }
+      }
+    </script>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        font-size: 50px;
+        font-family: "Anton", sans-serif;
+        font-family: "Rubik", sans-serif;
+      }
+
+      hr {
+        left: 0;
+        right: 0;
+        margin-block: 20px;
+      }
+
+      .container {
+        position: fixed;
+        width: 95vw;
+        height: 90vh;
+        padding-block: 5vh;
+        padding-inline: 5vh;
+        grid-row-gap: 5vh;
+        grid-column-gap: 5vh;
+        background-color: #000;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+      }
+
+      .element {
+        background-color: #34a31e;
+        border: 1px solid #000;
+        border-radius: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      span {
+        width: 300px;
+        text-align: justify;
+      }
+
+      input[type="radio"] {
+        transform: scale(2);
+      }
+
+      p {
+        font-size: 20px;
+        width: 600px;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="container">
+      <section class="element">
+        <span>
+          <input type="radio" name="selection" />
+            <label for="s1">1 - 100</label>
+        </span>
+        <span>
+          <input type="radio" name="selection" />
+            <label for="s2">101 - 200</label>
+        </span>
+        <span>
+          <input type="radio" name="selection" />
+            <label for="s3">201 - 300</label>
+        </span>
+        <span>
+          <input type="radio" name="selection" />
+            <label for="s4">301 - 400</label>
+        </span>
+        <span>
+          <input type="radio" name="selection" />
+            <label for="s5">401 - 560</label>
+        </span>
+      </section>
+      <section class="element">
+        <select name="select" id="select" style="margin-bottom: 250px">
+          <option value="1 - 100">1 - 100</option>
+          <option value="101 - 200">101 - 200</option>
+          <option value="201 - 300">201 - 300</option>
+          <option value="301 - 400">301 - 400</option>
+          <option value="401 - 560">401 - 560</option>
+        </select>
+      </section>
+      <section class="element">
+        <input type="number" id="number" min="1" max="560" />
+        <input type="button" value="Sprawdź" />
+      </section>
+      <section
+        class="element"
+        style="
+          overflow: scroll;
+          width: 100%;
+          padding: 20px;
+          text-align: justify;
+          display: block;
+          display: flex;
+          justify-content: center;;
+        "
+      >
+        <h1></h1>
+      </section>
+    </section>
+  </body>
+</html>
